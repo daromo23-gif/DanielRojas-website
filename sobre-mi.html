@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sobre mí — Daniel Rojas</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400;1,9..40,700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #0f0f0f;
+      --surface: #161616;
+      --elevated: #1e1e1e;
+      --card: #181818;
+      --border: #242424;
+      --border-light: #2c2c2c;
+      --text: #f0ede9;
+      --text-secondary: #a09d99;
+      --text-muted: #666;
+      --brand: #e8541a;
+      --brand-hover: #ff6030;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'DM Sans', system-ui, sans-serif;
+      line-height: 1.1;
+    }
+
+    /* ──── NAV ──── */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(15,15,15,0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 32px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+    .nav-logo-text {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      font-size: 0.9375rem;
+      color: var(--text);
+      letter-spacing: -0.025em;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+    .nav-link {
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      text-decoration: none;
+      padding: 6px 10px;
+      border-radius: 6px;
+      transition: color 0.12s ease, background 0.12s ease;
+      letter-spacing: 0.005em;
+    }
+    .nav-link:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+    .nav-link.active { color: var(--text); }
+    .nav-link:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+    .nav-cta {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--brand);
+      text-decoration: none;
+      padding: 7px 15px;
+      border: 1.5px solid var(--brand);
+      border-radius: 6px;
+      flex-shrink: 0;
+      transition: background 0.14s ease, color 0.14s ease, box-shadow 0.14s ease;
+      letter-spacing: 0.01em;
+    }
+    .nav-cta:hover {
+      background: var(--brand);
+      color: #fff;
+      box-shadow: 0 0 20px rgba(232,84,26,0.25);
+    }
+    .nav-cta:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
+    .nav-cta:active { transform: scale(0.98); }
+
+    /* ──── ABOUT PAGE ──── */
+    .about-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 80px 32px 100px;
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-decoration: none;
+      margin-bottom: 52px;
+      transition: color 0.12s;
+      letter-spacing: 0.01em;
+    }
+    .back-link:hover { color: var(--text-secondary); }
+    .back-link:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; border-radius: 2px; }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    /* Photo column */
+    .photo-col { position: sticky; top: 80px; }
+    .photo-wrap {
+      position: relative;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .photo-wrap img {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+      aspect-ratio: 4/5;
+    }
+    .photo-gradient {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        transparent 55%,
+        rgba(15,15,15,0.55) 100%
+      );
+      pointer-events: none;
+    }
+    /* Badges below photo */
+    .photo-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+    .badge {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      padding: 5px 10px;
+      border-radius: 5px;
+      border: 1px solid var(--border);
+      background: var(--elevated);
+      color: var(--text-secondary);
+    }
+    .badge-brand {
+      background: rgba(232,84,26,0.1);
+      border-color: rgba(232,84,26,0.3);
+      color: var(--brand);
+    }
+    /* Bio column */
+    .bio-col {}
+    .bio-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+    .bio-name {
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(36px, 4vw, 52px);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.0;
+    }
+    .bio-role {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.0625rem;
+      font-weight: 500;
+      color: var(--brand);
+      margin-bottom: 32px;
+      letter-spacing: -0.01em;
+    }
+    .bio-divider {
+      width: 40px;
+      height: 2px;
+      background: var(--brand);
+      border-radius: 2px;
+      margin-bottom: 36px;
+      opacity: 0.7;
+    }
+    .bio-text {
+      font-size: 1.0625rem;
+      line-height: 1.8;
+      color: var(--text-secondary);
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+    .bio-text p { }
+    .bio-text p.bold-line {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.015em;
+      line-height: 1.4;
+    }
+    .bio-text p.italic-line {
+      font-style: italic;
+      color: var(--text-secondary);
+    }
+    .bio-text strong { color: var(--text); font-weight: 600; }
+    .bio-text em { color: var(--brand); font-style: italic; }
+
+    /* ──── FOOTER ──── */
+    footer { border-top: 1px solid var(--border); background: var(--bg); }
+    .footer-top {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 56px 32px 40px;
+      display: grid;
+      grid-template-columns: 1.6fr 1fr 1fr;
+      gap: 48px;
+    }
+    .footer-brand { max-width: 280px; }
+    .footer-tagline {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin: 14px 0 20px;
+    }
+    .footer-socials { display: flex; gap: 10px; }
+    .social-icon {
+      width: 34px;
+      height: 34px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--elevated);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: border-color 0.12s, color 0.12s, background 0.12s;
+    }
+    .social-icon:hover { border-color: var(--border-light); color: var(--text); background: var(--card); }
+    .social-icon:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+    .footer-col-title {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8125rem;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: 0.01em;
+      margin-bottom: 14px;
+    }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-links a {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.12s;
+    }
+    .footer-links a:hover { color: var(--text); }
+    .footer-links a:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; border-radius: 2px; }
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 32px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .copyright { font-size: 0.8125rem; color: var(--text-muted); }
+
+    /* ──── RESPONSIVE ──── */
+    @media (max-width: 900px) {
+      .about-grid { grid-template-columns: 1fr; gap: 48px; }
+      .photo-col { position: static; }
+      .photo-wrap img { aspect-ratio: 3/2; }
+      .footer-top { grid-template-columns: 1fr 1fr; gap: 36px; }
+    }
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .nav-inner { padding: 0 20px; }
+      .about-section { padding: 56px 20px 80px; }
+      .footer-top { grid-template-columns: 1fr; padding: 40px 20px 32px; }
+      .footer-bottom { padding: 16px 20px; flex-direction: column; gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══ NAV ═══ -->
+  <header class="nav" role="banner">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo" aria-label="Daniel Rojas — inicio">
+        <svg width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true">
+          <rect width="26" height="26" rx="5" fill="#e8541a" opacity="0.1"/>
+          <rect x="11.5" y="2.5" width="3" height="6.5" rx="1.5" fill="#e8541a"/>
+          <rect x="11.5" y="17" width="3" height="6.5" rx="1.5" fill="#e8541a"/>
+          <rect x="2.5" y="11.5" width="6.5" height="3" rx="1.5" fill="#e8541a"/>
+          <rect x="17" y="11.5" width="6.5" height="3" rx="1.5" fill="#e8541a"/>
+          <circle cx="13" cy="13" r="1.8" fill="#e8541a"/>
+        </svg>
+        <span class="nav-logo-text">Daniel Rojas</span>
+      </a>
+
+      <nav class="nav-links" aria-label="Navegación principal">
+        <a href="/sobre-mi.html" class="nav-link active" aria-current="page">Sobre mí</a>
+        <a href="/#" class="nav-link">Recursos</a>
+        <a href="/#" class="nav-link">Productos</a>
+        <a href="/#" class="nav-link">Newsletter</a>
+      </nav>
+
+      <a href="https://www.linkedin.com/in/daniel-rojas-970bb6121" target="_blank" rel="noopener noreferrer" class="nav-cta">Trabaja Conmigo →</a>
+    </div>
+  </header>
+
+  <!-- ═══ SOBRE MÍ ═══ -->
+  <main>
+    <section class="about-section">
+      <a href="/" class="back-link">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Volver al inicio
+      </a>
+
+      <div class="about-grid">
+
+        <!-- ── Foto ── -->
+        <div class="photo-col">
+          <div class="photo-wrap">
+            <img
+              src="/Brand_assets/daniel-foto.jpeg"
+              alt="Daniel Rojas — consultor de IA para hispanohablantes"
+              loading="eager"
+            >
+            <div class="photo-gradient"></div>
+          </div>
+          <div class="photo-badges">
+            <span class="badge badge-brand">// AI para consultores</span>
+            <span class="badge">Costa Rica</span>
+            <span class="badge">Sin código</span>
+          </div>
+        </div>
+
+        <!-- ── Bio ── -->
+        <div class="bio-col">
+          <p class="bio-label">Sobre mí</p>
+          <h1 class="bio-name">Daniel Rojas</h1>
+          <p class="bio-role">Consultor de IA para hispanohablantes</p>
+          <div class="bio-divider"></div>
+
+          <div class="bio-text">
+            <p>Estudié administración de empresas. Luego derecho. Terminé los dos. Y seguía sin saber exactamente qué quería hacer con mi vida.</p>
+
+            <p class="bold-line">Lo que sí sabía era esto:</p>
+
+            <p class="italic-line">Odio hacer las cosas de la manera difícil cuando existe una manera más inteligente.</p>
+
+            <p>Siempre fue así. Si había que mover una caja de un lugar a otro, yo ya estaba pensando en cómo construir el sistema para que la caja se moviera sola. No por flojo. Sino porque mi cerebro simplemente no acepta el esfuerzo innecesario.</p>
+
+            <p><strong>No soy programador. Nunca lo fui.</strong></p>
+
+            <p>Pero siempre fui el tipo que veía un proceso repetitivo y pensaba — esto se puede automatizar. El que detectaba el patrón antes que nadie y buscaba la manera de convertirlo en sistema.</p>
+
+            <p>Esa obsesión me llevó a pasar 12 años dentro de empresas como <strong>Boston Scientific, Splunk, Takeda y Baxter.</strong></p>
+
+            <p>Y ahí lo vi — y lo hice.</p>
+
+            <p>Participé en implementaciones de automatización que transformaron cómo operaban equipos enteros. Una de ellas llegó a capacitar a más de <strong>10,000 usuarios.</strong> No como espectador. Como parte del equipo que lo construyó y lo enseñó.</p>
+
+            <p>Vi de primera mano cómo las empresas más grandes del mundo no ganan porque tienen más talento. Ganan porque tienen <em>sistemas.</em> Todo documentado. Todo medido. Todo conectado. Marketing con sistema. Operaciones con sistema. Ventas con sistema.</p>
+
+            <p class="bold-line">Una máquina.</p>
+
+            <p>Luego tomé una decisión que cambió todo.</p>
+
+            <p>Dejé el mundo corporativo y pasé un año viajando con mi familia. Sin agenda. Sin métricas. Sin reuniones de seguimiento.</p>
+
+            <p>Y por primera vez en 12 años tuve tiempo de hacer algo que las multinacionales nunca te dan — pensar. Pensar de verdad. En qué soy realmente bueno. En qué problemas puedo resolver mejor que nadie. En quién necesita lo que yo sé.</p>
+
+            <p class="bold-line">La respuesta fue clara.</p>
+
+            <p>Los consultores, profesionales independientes y dueños de negocio hispanohablantes tienen el mismo talento que cualquier ejecutivo de Fortune 500. La misma ambición. El mismo potencial.</p>
+
+            <p class="bold-line">Pero sin la máquina.</p>
+
+            <p>Todo vive en la cabeza del dueño. Las propuestas tardan días. Los clientes esperan. El conocimiento no se transfiere. Y el negocio no puede crecer porque depende de una sola persona haciendo todo manualmente.</p>
+
+            <p>Eso me rompió el cerebro.</p>
+
+            <p>Porque la solución existía. Siempre existió. Solo que nadie se la había mostrado en su idioma, con su realidad, con casos reales — y no demos de YouTube que nunca funcionan igual en la práctica.</p>
+
+            <p class="bold-line">Así que decidí ser ese alguien.</p>
+
+            <p>Hoy enseño a consultores hispanohablantes a construir sistemas con AI — empezando por Claude — para que entreguen mejor trabajo, cobren más por él, y dejen de ser el cuello de botella de su propio negocio.</p>
+
+            <p><em>Sin código. Sin teoría. Con lo que realmente funciona.</em></p>
+
+            <p>Porque eso es lo único que he hecho toda mi vida.</p>
+
+            <p class="bold-line">Encontrar el camino más inteligente.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer role="contentinfo">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="/" class="nav-logo" style="display:inline-flex;" aria-label="Daniel Rojas">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true">
+            <rect width="26" height="26" rx="5" fill="#e8541a" opacity="0.1"/>
+            <rect x="11.5" y="2.5" width="3" height="6.5" rx="1.5" fill="#e8541a"/>
+            <rect x="11.5" y="17" width="3" height="6.5" rx="1.5" fill="#e8541a"/>
+            <rect x="2.5" y="11.5" width="6.5" height="3" rx="1.5" fill="#e8541a"/>
+            <rect x="17" y="11.5" width="6.5" height="3" rx="1.5" fill="#e8541a"/>
+            <circle cx="13" cy="13" r="1.8" fill="#e8541a"/>
+          </svg>
+          <span class="nav-logo-text" style="margin-left:9px;">Daniel Rojas</span>
+        </a>
+        <p class="footer-tagline">
+          Ayudo a consultores independientes a usar IA para automatizar su negocio y cobrar más — sin código.
+        </p>
+        <div class="footer-socials" aria-label="Redes sociales">
+          <a href="#" class="social-icon" aria-label="YouTube">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.2 31.2 0 0 0 0 12a31.2 31.2 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.2 31.2 0 0 0 24 12a31.2 31.2 0 0 0-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg>
+          </a>
+          <a href="https://www.linkedin.com/in/daniel-rojas-970bb6121" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="LinkedIn">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 2h-17A1.5 1.5 0 0 0 2 3.5v17A1.5 1.5 0 0 0 3.5 22h17a1.5 1.5 0 0 0 1.5-1.5v-17A1.5 1.5 0 0 0 20.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 1 1 8.25 6.5 1.75 1.75 0 0 1 6.5 8.25zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0 0 13 14.19a.66.66 0 0 0 0 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 0 1 2.7-1.4c1.55 0 3.36.86 3.36 3.66z"/></svg>
+          </a>
+          <a href="#" class="social-icon" aria-label="Instagram">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="#" class="social-icon" aria-label="X / Twitter">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <p class="footer-col-title">Daniel Rojas</p>
+        <ul class="footer-links">
+          <li><a href="/">Inicio</a></li>
+          <li><a href="/sobre-mi.html">Sobre mí</a></li>
+          <li><a href="/#">Recursos</a></li>
+          <li><a href="/#">Productos</a></li>
+          <li><a href="/#">Newsletter</a></li>
+          <li><a href="/#">Contacto</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="footer-col-title">Categorías</p>
+        <ul class="footer-links">
+          <li><a href="/#">Escalar</a></li>
+          <li><a href="/#">Estrategia</a></li>
+          <li><a href="/#">Automatización</a></li>
+          <li><a href="/#">IA</a></li>
+          <li><a href="/#">Productividad</a></li>
+          <li><a href="/#">YouTube</a></li>
+          <li><a href="/#">Ventas</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p class="copyright">© 2026 Daniel Rojas. Todos los derechos reservados.</p>
+      <p class="copyright" style="font-size:0.75rem;">COBRA MÁS. Sin código.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

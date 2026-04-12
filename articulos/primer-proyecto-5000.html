@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cómo cerré mi primer proyecto de $5,000 con IA — Daniel Rojas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400;1,9..40,700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0f0f0f; --surface: #161616; --elevated: #1e1e1e; --card: #181818;
+      --border: #242424; --border-light: #2c2c2c;
+      --text: #f0ede9; --text-secondary: #a09d99; --text-muted: #666;
+      --brand: #e8541a; --brand-hover: #ff6030;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', system-ui, sans-serif; font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    h1,h2,h3,h4,h5,h6 { font-family: 'DM Sans', system-ui, sans-serif; line-height: 1.15; }
+
+    /* NAV */
+    .nav { position: sticky; top: 0; z-index: 100; background: rgba(15,15,15,0.88); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); }
+    .nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 32px; height: 60px; display: flex; align-items: center; justify-content: space-between; gap: 32px; }
+    .nav-logo { display: flex; align-items: center; gap: 9px; text-decoration: none; flex-shrink: 0; }
+    .nav-logo-text { font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 0.9375rem; color: var(--text); letter-spacing: -0.025em; }
+    .nav-links { display: flex; align-items: center; gap: 2px; }
+    .nav-link { font-size: 0.8125rem; font-weight: 500; color: var(--text-secondary); text-decoration: none; padding: 6px 10px; border-radius: 6px; transition: color 0.12s ease, background 0.12s ease; }
+    .nav-link:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+    .nav-cta { font-family: 'DM Sans', sans-serif; font-size: 0.8125rem; font-weight: 600; color: var(--brand); text-decoration: none; padding: 7px 15px; border: 1.5px solid var(--brand); border-radius: 6px; flex-shrink: 0; transition: background 0.14s ease, color 0.14s ease; }
+    .nav-cta:hover { background: var(--brand); color: #fff; }
+
+    /* ARTICLE */
+    .article-wrap { max-width: 720px; margin: 0 auto; padding: 64px 32px 96px; }
+    .back-link { display: inline-flex; align-items: center; gap: 6px; font-size: 0.8125rem; color: var(--text-muted); text-decoration: none; margin-bottom: 40px; transition: color 0.12s; }
+    .back-link:hover { color: var(--text-secondary); }
+    .article-category { display: inline-block; font-family: 'DM Sans', sans-serif; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--brand); background: rgba(232,84,26,0.1); border: 1px solid rgba(232,84,26,0.2); border-radius: 4px; padding: 3px 9px; margin-bottom: 20px; }
+    .article-title { font-size: clamp(28px, 4vw, 44px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; color: var(--text); margin-bottom: 16px; }
+    .article-meta { font-size: 0.8125rem; color: var(--text-muted); margin-bottom: 48px; display: flex; gap: 16px; align-items: center; }
+    .article-meta span + span::before { content: '·'; margin-right: 16px; }
+    .article-divider { border: none; border-top: 1px solid var(--border); margin-bottom: 48px; }
+
+    /* Body typography */
+    .article-body { font-size: 1.0625rem; line-height: 1.8; color: var(--text-secondary); }
+    .article-body p { margin-bottom: 24px; }
+    .article-body h2 { font-size: 1.375rem; font-weight: 700; color: var(--text); letter-spacing: -0.02em; margin: 48px 0 16px; }
+    .article-body h3 { font-size: 1.125rem; font-weight: 600; color: var(--text); margin: 32px 0 12px; }
+    .article-body strong { color: var(--text); font-weight: 600; }
+    .article-body em { font-style: italic; }
+    .article-body ul, .article-body ol { margin: 0 0 24px 20px; }
+    .article-body li { margin-bottom: 10px; }
+    .article-body blockquote { border-left: 3px solid var(--brand); padding: 2px 0 2px 20px; margin: 32px 0; }
+    .article-body blockquote p { color: var(--text); font-style: italic; font-size: 1.125rem; margin: 0; }
+    .highlight-box { background: var(--elevated); border: 1px solid var(--border-light); border-radius: 10px; padding: 24px 28px; margin: 32px 0; }
+    .highlight-box p { margin: 0; color: var(--text-secondary); }
+    .step-number { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; background: var(--brand); color: #fff; font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 0.875rem; flex-shrink: 0; }
+
+    /* CTA */
+    .article-cta { margin-top: 64px; background: var(--elevated); border: 1px solid var(--border-light); border-radius: 14px; padding: 40px 40px; text-align: center; }
+    .article-cta h3 { font-size: 1.375rem; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+    .article-cta p { color: var(--text-secondary); font-size: 0.9375rem; margin-bottom: 24px; }
+    .cta-form { display: flex; gap: 8px; max-width: 420px; margin: 0 auto; flex-wrap: wrap; justify-content: center; }
+    .cta-input { flex: 1; min-width: 200px; background: var(--card); border: 1px solid var(--border-light); color: var(--text); border-radius: 7px; padding: 11px 16px; font-size: 0.9375rem; font-family: 'Inter', sans-serif; outline: none; transition: border-color 0.15s; }
+    .cta-input:focus { border-color: var(--brand); }
+    .cta-input::placeholder { color: var(--text-muted); }
+    .cta-btn { font-family: 'DM Sans', sans-serif; font-size: 0.9375rem; font-weight: 600; color: #fff; background: var(--brand); border: none; border-radius: 7px; padding: 11px 22px; cursor: pointer; white-space: nowrap; transition: background 0.14s; }
+    .cta-btn:hover { background: var(--brand-hover); }
+
+    /* FOOTER */
+    footer { border-top: 1px solid var(--border); }
+    .footer-bottom { max-width: 1200px; margin: 0 auto; padding: 20px 32px; display: flex; align-items: center; justify-content: space-between; }
+    .copyright { font-size: 0.8125rem; color: var(--text-muted); }
+
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .article-wrap { padding: 48px 20px 72px; }
+      .article-cta { padding: 28px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="nav" role="banner">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo" aria-label="Daniel Rojas — inicio">
+        <svg width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true">
+          <rect width="26" height="26" rx="5" fill="#e8541a" opacity="0.1"/>
+          <rect x="11.5" y="2.5" width="3" height="6.5" rx="1.5" fill="#e8541a"/>
+          <rect x="11.5" y="17" width="3" height="6.5" rx="1.5" fill="#e8541a"/>
+          <rect x="2.5" y="11.5" width="6.5" height="3" rx="1.5" fill="#e8541a"/>
+          <rect x="17" y="11.5" width="6.5" height="3" rx="1.5" fill="#e8541a"/>
+          <circle cx="13" cy="13" r="1.8" fill="#e8541a"/>
+        </svg>
+        <span class="nav-logo-text">Daniel Rojas</span>
+      </a>
+      <nav class="nav-links" aria-label="Navegación principal">
+        <a href="/sobre-mi.html" class="nav-link">Sobre mí</a>
+        <a href="#" class="nav-link">Recursos</a>
+        <a href="#" class="nav-link">Productos</a>
+        <a href="#" class="nav-link">Newsletter</a>
+      </nav>
+      <a href="https://www.linkedin.com/in/daniel-rojas-970bb6121" target="_blank" rel="noopener noreferrer" class="nav-cta">Trabaja Conmigo →</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="article-wrap">
+      <a href="/" class="back-link">← Volver al inicio</a>
+      <span class="article-category">Ventas</span>
+      <h1 class="article-title">Cómo cerré mi primer proyecto de $5,000 con IA</h1>
+      <div class="article-meta">
+        <span>Daniel Rojas</span>
+        <span>10 Abr, 2026</span>
+        <span>8 min de lectura</span>
+      </div>
+      <hr class="article-divider">
+
+      <div class="article-body">
+        <p>El primer proyecto de $5,000 no llegó porque encontré un cliente perfecto. Llegó porque cambié la manera en que pensaba sobre lo que vendía. Durante mucho tiempo ofrecí "consultoría" — una palabra que nadie entiende bien y que es imposible de justificar a ese precio. Lo que aprendí fue que no se vende tiempo ni expertise genérico: <strong>se venden resultados específicos con un proceso claro</strong>.</p>
+
+        <p>Aquí te cuento exactamente cómo sucedió, paso a paso, para que puedas replicarlo.</p>
+
+        <h2>El punto de partida: dejé de ofrecer "consultoría"</h2>
+
+        <p>Antes cobraba $80 la hora por llamadas de estrategia. El cliente sentía que pagaba por mi tiempo, no por un resultado. Cuando terminaba la sesión se preguntaba si había valido la pena. Y yo también.</p>
+
+        <p>El cambio fue empaquetar mi trabajo en un entregable concreto. En mi caso: <strong>un diagnóstico de automatización + hoja de ruta de 90 días</strong>. Algo que el cliente podía ver, tocar y mostrarle a su socio. De repente dejé de vender horas y empecé a vender claridad.</p>
+
+        <blockquote>
+          <p>"La gente no compra consultoría, compra certeza de que va a llegar a un lugar mejor."</p>
+        </blockquote>
+
+        <h2>Cómo usé IA para encontrar el cliente correcto</h2>
+
+        <p>Usé ChatGPT para hacer algo que antes me tomaba días: investigar el mercado y afinar mi posicionamiento. Le di el siguiente prompt:</p>
+
+        <div class="highlight-box">
+          <p><em>"Soy consultor de automatización para despachos de abogados medianos en Latinoamérica. Dame los 5 dolores más costosos en tiempo y dinero que tienen en su operación diaria, ordenados por urgencia."</em></p>
+        </div>
+
+        <p>La respuesta me dio claridad inmediata sobre qué mencionar en mis mensajes de prospección. No hablé de "IA" ni de "automatización" — hablé de <strong>cobros pendientes que se pierden</strong>, de <strong>horas facturables que se van en tareas administrativas</strong>. Eso resonó.</p>
+
+        <h2>La llamada de descubrimiento: 4 preguntas que cambiaron todo</h2>
+
+        <p>Antes de hablar de precio o propuesta, hacía una llamada de 30 minutos donde solo escuchaba. Mis cuatro preguntas clave:</p>
+
+        <ol>
+          <li><strong>¿Qué tarea te quita más tiempo cada semana que no debería hacerla tú personalmente?</strong></li>
+          <li>¿Cuánto crees que vale ese tiempo en términos de facturación no realizada?</li>
+          <li>Si resolviéramos eso en los próximos 90 días, ¿cómo se vería el éxito para ti?</li>
+          <li>¿Qué ha impedido que lo hayas resuelto antes?</li>
+        </ol>
+
+        <p>Esas preguntas me dieron toda la munición para la propuesta. El cliente me estaba diciendo exactamente qué comprar — yo solo tenía que escuchar y empaquetar la solución.</p>
+
+        <h2>La propuesta: una página, no veinte</h2>
+
+        <p>Con los datos de la llamada le pedí a Claude que me ayudara a redactar la propuesta. Le di el contexto completo: el problema específico del cliente, el número que habían mencionado como costo del problema, y el resultado que querían. Claude me ayudó a estructurarlo así:</p>
+
+        <ul>
+          <li><strong>El problema en sus propias palabras</strong> — que el cliente reconociera su realidad</li>
+          <li><strong>El resultado prometido</strong> — específico y con fecha</li>
+          <li><strong>El proceso en 3 fases</strong> — que supiera qué esperar cada semana</li>
+          <li><strong>La inversión</strong> — un solo número, no rangos</li>
+        </ul>
+
+        <p>La propuesta era de una página. Nada de anexos, nada de tablas comparativas. En 5 minutos el cliente podía entender exactamente qué iba a pasar y por qué valía lo que costaba.</p>
+
+        <h2>El cierre: no perseguí, pregunté</h2>
+
+        <p>Envié la propuesta y en 24 horas pregunté: <em>"¿Tienes dudas sobre el proceso o sobre el resultado esperado?"</em> No pregunté si les había gustado. No pedí retroalimentación sobre el precio. Solo abrí la puerta para resolver objeciones concretas.</p>
+
+        <p>Respondieron con una pregunta sobre los tiempos. La respondí en dos líneas. Al día siguiente confirmaron.</p>
+
+        <h2>Lo que aprendí y puedes aplicar hoy</h2>
+
+        <p>El proyecto no fue difícil de conseguir porque tuviera una red enorme o años de experiencia. Fue posible porque hice tres cosas correctamente:</p>
+
+        <ul>
+          <li>Empaqué mi servicio como un resultado, no como tiempo</li>
+          <li>Usé IA para hablar el lenguaje de mi cliente antes de la primera llamada</li>
+          <li>Escuché más de lo que hablé en la llamada de descubrimiento</li>
+        </ul>
+
+        <p>Si estás cobrando por hora y quieres llegar a proyectos de $3,000–$8,000, empieza por ahí. Define un entregable concreto con un resultado prometido. Eso es lo que compra un cliente sofisticado.</p>
+      </div>
+
+      <div class="article-cta">
+        <h3>Cada semana, un caso real como este</h3>
+        <p>Suscríbete y recibe workflows, estrategias y herramientas que puedes aplicar el mismo día.</p>
+        <form class="cta-form" onsubmit="return false;">
+          <input type="email" class="cta-input" placeholder="Tu correo electrónico" aria-label="Correo electrónico">
+          <button type="submit" class="cta-btn">Suscribirme</button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-bottom">
+      <p class="copyright">© 2026 Daniel Rojas. Todos los derechos reservados.</p>
+      <p class="copyright">COBRA MÁS. Sin código.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Las 3 herramientas de IA que uso todos los días — Daniel Rojas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400;1,9..40,700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg:#0f0f0f; --surface:#161616; --elevated:#1e1e1e; --card:#181818; --border:#242424; --border-light:#2c2c2c; --text:#f0ede9; --text-secondary:#a09d99; --text-muted:#666; --brand:#e8541a; --brand-hover:#ff6030; }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+    h1,h2,h3,h4,h5,h6{font-family:'DM Sans',system-ui,sans-serif;line-height:1.15;}
+    .nav{position:sticky;top:0;z-index:100;background:rgba(15,15,15,0.88);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border);}
+    .nav-inner{max-width:1200px;margin:0 auto;padding:0 32px;height:60px;display:flex;align-items:center;justify-content:space-between;gap:32px;}
+    .nav-logo{display:flex;align-items:center;gap:9px;text-decoration:none;flex-shrink:0;}
+    .nav-logo-text{font-family:'DM Sans',sans-serif;font-weight:700;font-size:0.9375rem;color:var(--text);letter-spacing:-0.025em;}
+    .nav-links{display:flex;align-items:center;gap:2px;}
+    .nav-link{font-size:0.8125rem;font-weight:500;color:var(--text-secondary);text-decoration:none;padding:6px 10px;border-radius:6px;transition:color 0.12s ease,background 0.12s ease;}
+    .nav-link:hover{color:var(--text);background:rgba(255,255,255,0.05);}
+    .nav-cta{font-family:'DM Sans',sans-serif;font-size:0.8125rem;font-weight:600;color:var(--brand);text-decoration:none;padding:7px 15px;border:1.5px solid var(--brand);border-radius:6px;flex-shrink:0;transition:background 0.14s ease,color 0.14s ease;}
+    .nav-cta:hover{background:var(--brand);color:#fff;}
+    .article-wrap{max-width:720px;margin:0 auto;padding:64px 32px 96px;}
+    .back-link{display:inline-flex;align-items:center;gap:6px;font-size:0.8125rem;color:var(--text-muted);text-decoration:none;margin-bottom:40px;transition:color 0.12s;}
+    .back-link:hover{color:var(--text-secondary);}
+    .article-category{display:inline-block;font-family:'DM Sans',sans-serif;font-size:0.6875rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--brand);background:rgba(232,84,26,0.1);border:1px solid rgba(232,84,26,0.2);border-radius:4px;padding:3px 9px;margin-bottom:20px;}
+    .article-title{font-size:clamp(28px,4vw,44px);font-weight:700;letter-spacing:-0.03em;line-height:1.1;color:var(--text);margin-bottom:16px;}
+    .article-meta{font-size:0.8125rem;color:var(--text-muted);margin-bottom:48px;display:flex;gap:16px;align-items:center;}
+    .article-meta span+span::before{content:'·';margin-right:16px;}
+    .article-divider{border:none;border-top:1px solid var(--border);margin-bottom:48px;}
+    .article-body{font-size:1.0625rem;line-height:1.8;color:var(--text-secondary);}
+    .article-body p{margin-bottom:24px;}
+    .article-body h2{font-size:1.375rem;font-weight:700;color:var(--text);letter-spacing:-0.02em;margin:48px 0 16px;}
+    .article-body h3{font-size:1.125rem;font-weight:600;color:var(--text);margin:32px 0 12px;}
+    .article-body strong{color:var(--text);font-weight:600;}
+    .article-body em{font-style:italic;}
+    .article-body ul,.article-body ol{margin:0 0 24px 20px;}
+    .article-body li{margin-bottom:10px;}
+    .article-body blockquote{border-left:3px solid var(--brand);padding:2px 0 2px 20px;margin:32px 0;}
+    .article-body blockquote p{color:var(--text);font-style:italic;font-size:1.125rem;margin:0;}
+    .highlight-box{background:var(--elevated);border:1px solid var(--border-light);border-radius:10px;padding:24px 28px;margin:32px 0;}
+    .highlight-box p{margin:0;color:var(--text-secondary);}
+    .tool-card{background:var(--card);border:1px solid var(--border-light);border-radius:12px;padding:28px;margin:32px 0;}
+    .tool-card-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+    .tool-number{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:8px;background:rgba(232,84,26,0.15);color:var(--brand);font-family:'DM Sans',sans-serif;font-weight:700;font-size:0.9375rem;}
+    .tool-name{font-family:'DM Sans',sans-serif;font-size:1.125rem;font-weight:700;color:var(--text);}
+    .tool-card p{color:var(--text-secondary);font-size:1rem;line-height:1.75;margin-bottom:12px;}
+    .tool-card p:last-child{margin-bottom:0;}
+    .article-cta{margin-top:64px;background:var(--elevated);border:1px solid var(--border-light);border-radius:14px;padding:40px;text-align:center;}
+    .article-cta h3{font-size:1.375rem;font-weight:700;color:var(--text);margin-bottom:10px;}
+    .article-cta p{color:var(--text-secondary);font-size:0.9375rem;margin-bottom:24px;}
+    .cta-form{display:flex;gap:8px;max-width:420px;margin:0 auto;flex-wrap:wrap;justify-content:center;}
+    .cta-input{flex:1;min-width:200px;background:var(--card);border:1px solid var(--border-light);color:var(--text);border-radius:7px;padding:11px 16px;font-size:0.9375rem;font-family:'Inter',sans-serif;outline:none;transition:border-color 0.15s;}
+    .cta-input:focus{border-color:var(--brand);}
+    .cta-input::placeholder{color:var(--text-muted);}
+    .cta-btn{font-family:'DM Sans',sans-serif;font-size:0.9375rem;font-weight:600;color:#fff;background:var(--brand);border:none;border-radius:7px;padding:11px 22px;cursor:pointer;white-space:nowrap;transition:background 0.14s;}
+    .cta-btn:hover{background:var(--brand-hover);}
+    footer{border-top:1px solid var(--border);}
+    .footer-bottom{max-width:1200px;margin:0 auto;padding:20px 32px;display:flex;align-items:center;justify-content:space-between;}
+    .copyright{font-size:0.8125rem;color:var(--text-muted);}
+    @media(max-width:640px){.nav-links{display:none;}.article-wrap{padding:48px 20px 72px;}.article-cta{padding:28px 20px;}}
+  </style>
+</head>
+<body>
+
+  <header class="nav" role="banner">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo" aria-label="Daniel Rojas — inicio">
+        <svg width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true">
+          <rect width="26" height="26" rx="5" fill="#e8541a" opacity="0.1"/>
+          <rect x="11.5" y="2.5" width="3" height="6.5" rx="1.5" fill="#e8541a"/>
+          <rect x="11.5" y="17" width="3" height="6.5" rx="1.5" fill="#e8541a"/>
+          <rect x="2.5" y="11.5" width="6.5" height="3" rx="1.5" fill="#e8541a"/>
+          <rect x="17" y="11.5" width="6.5" height="3" rx="1.5" fill="#e8541a"/>
+          <circle cx="13" cy="13" r="1.8" fill="#e8541a"/>
+        </svg>
+        <span class="nav-logo-text">Daniel Rojas</span>
+      </a>
+      <nav class="nav-links" aria-label="Navegación principal">
+        <a href="/sobre-mi.html" class="nav-link">Sobre mí</a>
+        <a href="#" class="nav-link">Recursos</a>
+        <a href="#" class="nav-link">Productos</a>
+        <a href="#" class="nav-link">Newsletter</a>
+      </nav>
+      <a href="https://www.linkedin.com/in/daniel-rojas-970bb6121" target="_blank" rel="noopener noreferrer" class="nav-cta">Trabaja Conmigo →</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="article-wrap">
+      <a href="/" class="back-link">← Volver al inicio</a>
+      <span class="article-category">IA</span>
+      <h1 class="article-title">Las 3 herramientas de IA que uso todos los días</h1>
+      <div class="article-meta">
+        <span>Daniel Rojas</span>
+        <span>5 Abr, 2026</span>
+        <span>7 min de lectura</span>
+      </div>
+      <hr class="article-divider">
+
+      <div class="article-body">
+        <p>Cada semana alguien me pregunta lo mismo: <em>"¿Por dónde empiezo con IA?"</em> La respuesta honesta no es sexy: empieza por tres herramientas y úsalas profundamente, en lugar de probar veinte superficialmente. Después de dos años automatizando mi consultoría, estas son las tres que siguen en mi stack todos los días — y para qué sirve exactamente cada una.</p>
+
+        <div class="tool-card">
+          <div class="tool-card-header">
+            <span class="tool-number">1</span>
+            <span class="tool-name">ChatGPT — El generador de primer borrador</span>
+          </div>
+          <p>ChatGPT es rápido, conectado a internet y muy bueno para volumen. Lo uso para todo lo que necesito <strong>rápido y en cantidad</strong>: primeros borradores de propuestas, listas de ideas, emails de prospección, resúmenes de reuniones, guiones de llamadas.</p>
+          <p>El truco es no pedirle el resultado final directamente. Úsalo como <strong>iterador</strong>: pide un primer borrador, luego pídele que lo mejore con un criterio específico, luego otro. Tres rondas de refinamiento producen resultados que parecen escritos por un senior de tu industria.</p>
+          <p><strong>Mi prompt de arranque favorito:</strong> <em>"Actúa como un consultor senior de [industria] con 15 años de experiencia trabajando con empresas de [tamaño]. Quiero que me ayudes a [tarea]. El tono debe ser profesional pero directo, sin clichés corporativos."</em></p>
+        </div>
+
+        <div class="tool-card">
+          <div class="tool-card-header">
+            <span class="tool-number">2</span>
+            <span class="tool-name">Claude — El analista de documentos largos</span>
+          </div>
+          <p>Claude tiene una ventana de contexto enorme — puede leer un contrato de 80 páginas, el historial completo de un cliente, o varios documentos al mismo tiempo. Eso lo hace insustituible para trabajo de análisis profundo.</p>
+          <p>Lo uso para: <strong>revisar contratos</strong> y marcar cláusulas problemáticas, <strong>sintetizar transcripciones</strong> largas de entrevistas con clientes, <strong>comparar propuestas</strong> de proveedores, y <strong>dar feedback estructurado</strong> sobre informes que produzco.</p>
+          <p>También es notablemente mejor que GPT para razonamiento matizado. Cuando necesito que alguien me "haga de abogado del diablo" en una estrategia, uso Claude. Sus objeciones son más precisas y menos genéricas.</p>
+          <p><strong>Caso de uso real:</strong> Le pego la transcripción de mi llamada de descubrimiento y le pido: <em>"Identifica los 3 problemas más costosos que mencionó el cliente, las objeciones implícitas que no verbalizó directamente, y sugiere cómo estructurar la propuesta para abordar ambas cosas."</em></p>
+        </div>
+
+        <div class="tool-card">
+          <div class="tool-card-header">
+            <span class="tool-number">3</span>
+            <span class="tool-name">Make.com — El que conecta todo</span>
+          </div>
+          <p>Make (antes Integromat) es donde la IA deja de ser un juguete y se convierte en una máquina que trabaja para ti mientras duermes. No es IA en sí misma — es la infraestructura que conecta todas tus herramientas con IA en el medio.</p>
+          <p>Mis automatizaciones activas hoy: cuando llega un lead por formulario → Make extrae los datos → los pasa a ChatGPT para generar un resumen del perfil → crea una tarea en Notion → me manda un mensaje con el resumen. Todo en 90 segundos, sin que yo haga nada.</p>
+          <p>También automatizo: <strong>reportes mensuales a clientes</strong> (datos de Google Sheets → resumen generado por IA → enviado por email), <strong>seguimiento de propuestas</strong> enviadas, y <strong>onboarding de nuevos clientes</strong>.</p>
+          <p><strong>Para empezar:</strong> Identifica la tarea repetitiva que más te molesta cada semana. Hay 90% de probabilidad de que Make pueda automatizarla sin que escribas una línea de código.</p>
+        </div>
+
+        <h2>Cómo las uso juntas</h2>
+
+        <p>Las tres herramientas forman un sistema, no una colección de apps aisladas. El flujo típico en mi trabajo:</p>
+
+        <ul>
+          <li>Un cliente llena un formulario de contacto → <strong>Make</strong> captura los datos</li>
+          <li>Make manda esos datos a <strong>ChatGPT</strong>, que genera un perfil de prospecto con puntos de dolor probables</li>
+          <li>Yo leo el perfil y ajusto mi enfoque antes de la llamada</li>
+          <li>Después de la llamada pego la transcripción en <strong>Claude</strong> para sacar insights y estructura la propuesta</li>
+          <li>ChatGPT redacta la propuesta con el briefing de Claude</li>
+          <li><strong>Make</strong> envía la propuesta automáticamente con el seguimiento programado</li>
+        </ul>
+
+        <p>Ese flujo me ahorra entre 3 y 5 horas por cliente. Si trabajo con 4 clientes nuevos al mes, estoy recuperando hasta 20 horas — suficiente para agregar un cliente más o simplemente no trabajar los viernes.</p>
+
+        <blockquote>
+          <p>No se trata de usar más herramientas. Se trata de usar tres correctamente y conectarlas.</p>
+        </blockquote>
+
+        <p>Si no tienes ninguna de estas herramientas, empieza por ChatGPT esta semana. Úsalo 30 minutos al día durante 10 días para tareas que normalmente harías manualmente. Al día 10 ya sabrás exactamente dónde añadir Claude y Make.</p>
+      </div>
+
+      <div class="article-cta">
+        <h3>Cada semana, un workflow nuevo</h3>
+        <p>Suscríbete y recibe casos reales, herramientas y estrategias que puedes aplicar el mismo día.</p>
+        <form class="cta-form" onsubmit="return false;">
+          <input type="email" class="cta-input" placeholder="Tu correo electrónico" aria-label="Correo electrónico">
+          <button type="submit" class="cta-btn">Suscribirme</button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-bottom">
+      <p class="copyright">© 2026 Daniel Rojas. Todos los derechos reservados.</p>
+      <p class="copyright">COBRA MÁS. Sin código.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
