@@ -833,10 +833,10 @@
         text.split(/(\s+)/).forEach(function (token) {
           if (/\S/.test(token)) {
             var wrapper = document.createElement('span');
-            wrapper.style.cssText = 'display:inline-block;overflow:hidden;vertical-align:bottom;line-height:inherit;';
+            wrapper.style.cssText = 'display:inline-block;overflow:hidden;vertical-align:bottom;line-height:inherit;padding-right:0.18em;margin-right:-0.18em;';
             var inner = document.createElement('span');
             inner.style.cssText =
-              'display:inline-block;transform:translateY(112%);padding-right:0.15em;margin-right:-0.15em;' +
+              'display:inline-block;transform:translateY(112%);' +
               'animation:vcrUp 0.8s cubic-bezier(0.16,1,0.3,1) ' + (idx * stagger) + 's forwards;';
             inner.textContent = token;
             idx++;
