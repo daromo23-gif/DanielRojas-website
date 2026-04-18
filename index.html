@@ -479,6 +479,43 @@
       color: var(--text-muted);
     }
 
+    /* ──── REVEAL ANIMATIONS ──── */
+    @keyframes vcrUp {
+      to { transform: translateY(0); }
+    }
+    @keyframes heroFadeUp {
+      to { opacity: 1; transform: translateY(0); filter: blur(0); }
+    }
+    .hero-body {
+      opacity: 0;
+      transform: translateY(18px);
+      filter: blur(5px);
+      animation: heroFadeUp 0.72s cubic-bezier(0.16, 1, 0.3, 1) 0.52s forwards;
+    }
+    .subscribe-form {
+      opacity: 0;
+      transform: translateY(18px);
+      filter: blur(5px);
+      animation: heroFadeUp 0.72s cubic-bezier(0.16, 1, 0.3, 1) 0.7s forwards;
+    }
+    [data-reveal] {
+      opacity: 0;
+      transform: translateY(22px);
+      filter: blur(6px);
+      transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+                  filter 0.55s ease;
+    }
+    [data-reveal].revealed {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .hero-body, .subscribe-form { animation: none; opacity: 1; transform: none; filter: none; }
+      [data-reveal] { opacity: 1; transform: none; filter: none; transition: none; }
+    }
+
     /* ──── RESPONSIVE ──── */
     @media (max-width: 768px) {
       .nav-links { display: none; }
@@ -585,7 +622,7 @@
   <!-- ═══ CONTENT LIST ═══ -->
   <section class="content-section" aria-labelledby="content-label">
     <!-- Filter tabs -->
-    <nav class="filter-bar" aria-label="Filtrar por categoría" style="margin-top:20px;">
+    <nav class="filter-bar" data-reveal aria-label="Filtrar por categoría" style="margin-top:20px;">
       <a href="#" class="filter-tab active" aria-current="page">Todo</a>
       <a href="#" class="filter-tab">Escalar</a>
       <a href="#" class="filter-tab">Estrategia</a>
@@ -598,7 +635,7 @@
     <!-- Posts -->
     <div class="posts-list" role="list">
 
-      <a href="/articulos/primer-proyecto-5000.html" class="post-row" role="listitem">
+      <a href="/articulos/primer-proyecto-5000.html" class="post-row" data-reveal data-reveal-delay="0.05" role="listitem">
         <span class="post-title">Cómo cerré mi primer proyecto de $5,000 con IA</span>
         <span class="cat-tag">Ventas</span>
         <span class="post-date">10 Abr, 2026</span>
@@ -607,7 +644,7 @@
         </span>
       </a>
 
-      <a href="/articulos/3-herramientas-ia.html" class="post-row" role="listitem">
+      <a href="/articulos/3-herramientas-ia.html" class="post-row" data-reveal data-reveal-delay="0.15" role="listitem">
         <span class="post-title">Las 3 herramientas de IA que uso todos los días</span>
         <span class="cat-tag">IA</span>
         <span class="post-date">5 Abr, 2026</span>
@@ -619,7 +656,7 @@
     </div><!-- /posts-list -->
 
     <!-- Pagination -->
-    <nav class="pagination" aria-label="Paginación">
+    <nav class="pagination" data-reveal data-reveal-delay="0.1" aria-label="Paginación">
       <a href="#" class="page-btn">← Ant.</a>
       <a href="#" class="page-btn current" aria-current="page">1</a>
       <a href="#" class="page-btn">2</a>
@@ -635,7 +672,7 @@
     <div class="footer-top">
 
       <!-- Brand column -->
-      <div class="footer-brand">
+      <div class="footer-brand" data-reveal data-reveal-delay="0">
         <a href="/" class="nav-logo" style="display:inline-flex;" aria-label="Daniel Rojas">
           <svg width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true">
             <rect width="26" height="26" rx="5" fill="#e8541a" opacity="0.1"/>
@@ -671,7 +708,7 @@
       </div>
 
       <!-- Nav links column -->
-      <div>
+      <div data-reveal data-reveal-delay="0.1">
         <p class="footer-col-title">Daniel Rojas</p>
         <ul class="footer-links">
           <li><a href="#">Inicio</a></li>
@@ -684,7 +721,7 @@
       </div>
 
       <!-- Categories column -->
-      <div>
+      <div data-reveal data-reveal-delay="0.2">
         <p class="footer-col-title">Categorías</p>
         <ul class="footer-links">
           <li><a href="#">Escalar</a></li>
@@ -704,5 +741,70 @@
     </div>
   </footer>
 
+  <script>
+  (function () {
+    // ── Vertical Cut Reveal — hero heading ──
+    function verticalCutReveal(el, stagger) {
+      stagger = stagger || 0.07;
+      var idx = 0;
+      var frag = document.createDocumentFragment();
+
+      function wrapWords(text, container) {
+        text.split(/(\s+)/).forEach(function (token) {
+          if (/\S/.test(token)) {
+            var wrapper = document.createElement('span');
+            wrapper.style.cssText = 'display:inline-block;overflow:hidden;vertical-align:bottom;line-height:inherit;';
+            var inner = document.createElement('span');
+            inner.style.cssText =
+              'display:inline-block;transform:translateY(112%);' +
+              'animation:vcrUp 0.8s cubic-bezier(0.16,1,0.3,1) ' + (idx * stagger) + 's forwards;';
+            inner.textContent = token;
+            idx++;
+            wrapper.appendChild(inner);
+            container.appendChild(wrapper);
+          } else if (token) {
+            container.appendChild(document.createTextNode(token));
+          }
+        });
+      }
+
+      Array.from(el.childNodes).forEach(function (node) {
+        if (node.nodeType === 3) {
+          wrapWords(node.textContent, frag);
+        } else if (node.nodeType === 1) {
+          if (node.tagName === 'BR') {
+            frag.appendChild(document.createElement('br'));
+          } else {
+            var clone = node.cloneNode(false);
+            wrapWords(node.textContent, clone);
+            frag.appendChild(clone);
+          }
+        }
+      });
+
+      el.innerHTML = '';
+      el.appendChild(frag);
+    }
+
+    var heading = document.getElementById('hero-heading');
+    if (heading) verticalCutReveal(heading, 0.07);
+
+    // ── Scroll reveal ──
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          var el = entry.target;
+          var delay = parseFloat(el.dataset.revealDelay || 0) * 1000;
+          setTimeout(function () { el.classList.add('revealed'); }, delay);
+          observer.unobserve(el);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('[data-reveal]').forEach(function (el) {
+      observer.observe(el);
+    });
+  })();
+  </script>
 </body>
 </html>
