@@ -141,7 +141,7 @@
       pointer-events: none;
       z-index: 0;
     }
-    .hero-content { max-width: 780px; position: relative; z-index: 1; }
+    .hero-content { max-width: 780px; position: relative; z-index: 1; padding-right: 28px; }
     .hero-badge {
       display: inline-flex;
       align-items: center;
@@ -823,7 +823,8 @@
 
   <script>
   (function () {
-    // ── Vertical Cut Reveal — hero heading ──
+    var originalHeadingHTML = null;
+
     function verticalCutReveal(el, stagger) {
       stagger = stagger || 0.07;
       var idx = 0;
@@ -866,10 +867,6 @@
       el.appendChild(frag);
     }
 
-    var heading = document.getElementById('hero-heading');
-    if (heading) verticalCutReveal(heading, 0.07);
-
-    // ── Scroll reveal ──
     var observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
@@ -881,8 +878,39 @@
       });
     }, { threshold: 0.1 });
 
-    document.querySelectorAll('[data-reveal]').forEach(function (el) {
-      observer.observe(el);
+    function initAnimations() {
+      // Heading: restore original HTML then re-split
+      var heading = document.getElementById('hero-heading');
+      if (heading) {
+        if (originalHeadingHTML === null) {
+          originalHeadingHTML = heading.innerHTML;
+        } else {
+          heading.innerHTML = originalHeadingHTML;
+        }
+        verticalCutReveal(heading, 0.07);
+      }
+
+      // Restart hero CSS animations
+      ['.hero-body', '.subscribe-form'].forEach(function (sel) {
+        var el = document.querySelector(sel);
+        if (!el) return;
+        el.style.animation = 'none';
+        void el.offsetHeight;
+        el.style.animation = '';
+      });
+
+      // Reset scroll reveals
+      document.querySelectorAll('[data-reveal]').forEach(function (el) {
+        el.classList.remove('revealed');
+        observer.observe(el);
+      });
+    }
+
+    initAnimations();
+
+    // Replay on bfcache restore (back/forward navigation)
+    window.addEventListener('pageshow', function (e) {
+      if (e.persisted) initAnimations();
     });
   })();
   </script>
