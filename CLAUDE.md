@@ -1,54 +1,95 @@
-# CLAUDE.md — Frontend Website Rules
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Always Do First
 - **Invoke the `frontend-design` skill** before writing any frontend code, every session, no exceptions.
 
-## Reference Images
-- If a reference image is provided: match layout, spacing, typography, and color exactly. Swap in placeholder content (images via `https://placehold.co/`, generic copy). Do not improve or add to the design.
-- If no reference image: design from scratch with high craft (see guardrails below).
-- Screenshot your output, compare against reference, fix mismatches, re-screenshot. Do at least 2 comparison rounds. Stop only when no visible differences remain or user says so.
+## Project Architecture
 
-## Local Server
-- **Always serve on localhost** — never screenshot a `file:///` URL.
-- Start the dev server: `node serve.mjs` (serves the project root at `http://localhost:3000`)
-- `serve.mjs` lives in the project root. Start it in the background before taking any screenshots.
-- If the server is already running, do not start a second instance.
+Static HTML website for Daniel Rojas — a personal brand/newsletter site. No build step, no framework.
 
-## Screenshot Workflow
-- Puppeteer is installed via `npm install puppeteer` in the project root (`node_modules/puppeteer`). Chrome cache is at `C:/Users/darom/.cache/puppeteer/`.
-- **Always screenshot from localhost:** `node screenshot.mjs http://localhost:3000`
-- Screenshots are saved automatically to `./temporary screenshots/screenshot-N.png` (auto-incremented, never overwritten).
-- Optional label suffix: `node screenshot.mjs http://localhost:3000 label` → saves as `screenshot-N-label.png`
-- `screenshot.mjs` lives in the project root. Use it as-is.
-- After screenshotting, read the PNG from `temporary screenshots/` with the Read tool — Claude can see and analyze the image directly.
-- When comparing, be specific: "heading is 32px but reference shows ~24px", "card gap is 16px but should be 24px"
-- Check: spacing/padding, font size/weight/line-height, colors (exact hex), alignment, border-radius, shadows, image sizing
+- `index.html` — homepage (hero, article list, footer). All CSS is inline in `<style>`. All JS is inline in `<script>` at end of `<body>`.
+- `sobre-mi.html` — About page, same structure.
+- `articulos/` — Individual article pages.
+- `Brand_assets/` — Logo (`DR-logomark-dark.png`), photo (`daniel-foto.jpeg`), brand guidelines (`daniel-rojas-brand-guidelines.png`). Always read the guidelines image before designing.
+- `serve.mjs` — Static file server on port 3000.
+- `screenshot.mjs` — Puppeteer screenshot tool.
 
-## Output Defaults
-- Single `index.html` file, all styles inline, unless user says otherwise
-- Tailwind CSS via CDN: `<script src="https://cdn.tailwindcss.com"></script>`
-- Placeholder images: `https://placehold.co/WIDTHxHEIGHT`
-- Mobile-first responsive
+## Deployment
 
-## Brand Assets
-- Always check the `brand_assets/` folder before designing. It may contain logos, color guides, style guides, or images.
-- If assets exist there, use them. Do not use placeholders where real assets are available.
-- If a logo is present, use it. If a color palette is defined, use those exact values — do not invent brand colors.
+Changes go live via: **local edit → git commit → git push → Vercel auto-deploys**.
+
+```bash
+git add <files>
+git commit -m "description"
+git push
+```
+
+Vercel is connected to GitHub repo `daromo23-gif/DanielRojas-website` on branch `main`. Every push triggers a redeploy (~30s). Live at `www.danielrojas.co`.
+
+**Node.js is not in the bash PATH.** The `node` command only works from Windows-native terminals (cmd/PowerShell), not from the bash shell used by Claude Code tools. Do not attempt to run `node serve.mjs` or `node screenshot.mjs` via Bash tool — they will fail with "command not found".
+
+## Brand Tokens
+
+Established in `Brand_assets/daniel-rojas-brand-guidelines.png` and `index.html`:
+
+```css
+--bg: #0f0f0f          /* page background */
+--surface: #161616
+--elevated: #1e1e1e
+--card: #181818
+--border: #242424
+--border-light: #2c2c2c
+--text: #f0ede9
+--text-secondary: #a09d99
+--text-muted: #666
+--brand: #e8541a       /* primary orange — never substitute */
+--brand-hover: #ff6030
+```
+
+Fonts: `DM Sans` (headings, UI) + `Inter` (body). Both loaded from Google Fonts.
+
+Brand voice uses `//` prefix as a code-style label (e.g. `// AI Operating System`). Use this pattern for badges and category labels.
+
+## Animation Patterns
+
+The site uses two animation systems implemented in vanilla JS/CSS (no libraries):
+
+**1. Vertical Cut Reveal** (hero heading on load) — JS splits the heading into words, each wrapped in `overflow:hidden` with an inner span that slides up via `@keyframes vcrUp`. Key detail: the wrapper needs `padding-right:0.18em; margin-right:-0.18em` to prevent clipping of italic glyph overhangs.
+
+**2. Scroll Reveal** (sections, post rows, footer) — `IntersectionObserver` adds `.revealed` class to `[data-reveal]` elements. Optional `data-reveal-delay="0.1"` for stagger.
+
+Both systems are re-initialized on `pageshow` with `e.persisted` to handle bfcache (back/forward navigation).
+
+Hero body and form use CSS `animation: heroFadeUp` with delay, controlled by removing/re-adding the `animation` property in JS on replay.
+
+## Local Server & Screenshot Workflow
+
+- Start server: `node serve.mjs` (port 3000) — run from Windows terminal, not bash
+- Screenshot: `node screenshot.mjs http://localhost:3000 [label]`
+- Screenshots saved to `./temporary screenshots/screenshot-N[-label].png`
+- Read screenshots with the Read tool to visually inspect output
+
+## Reference Images & Design
+
+- If a reference image is provided: match layout, spacing, typography, and color exactly. Use `https://placehold.co/WIDTHxHEIGHT` for placeholder images.
+- Screenshot, compare, fix mismatches, re-screenshot. Minimum 2 rounds.
+- Never screenshot a `file:///` URL — always use localhost.
 
 ## Anti-Generic Guardrails
-- **Colors:** Never use default Tailwind palette (indigo-500, blue-600, etc.). Pick a custom brand color and derive from it.
-- **Shadows:** Never use flat `shadow-md`. Use layered, color-tinted shadows with low opacity.
-- **Typography:** Never use the same font for headings and body. Pair a display/serif with a clean sans. Apply tight tracking (`-0.03em`) on large headings, generous line-height (`1.7`) on body.
-- **Gradients:** Layer multiple radial gradients. Add grain/texture via SVG noise filter for depth.
-- **Animations:** Only animate `transform` and `opacity`. Never `transition-all`. Use spring-style easing.
-- **Interactive states:** Every clickable element needs hover, focus-visible, and active states. No exceptions.
-- **Images:** Add a gradient overlay (`bg-gradient-to-t from-black/60`) and a color treatment layer with `mix-blend-multiply`.
-- **Spacing:** Use intentional, consistent spacing tokens — not random Tailwind steps.
-- **Depth:** Surfaces should have a layering system (base → elevated → floating), not all sit at the same z-plane.
+
+- **Colors:** Never use default Tailwind palette. Use brand tokens above.
+- **Shadows:** Layered, color-tinted, low opacity — not flat `shadow-md`.
+- **Typography:** DM Sans for headings (`letter-spacing: -0.04em` on large), Inter for body (`line-height: 1.7`).
+- **Animations:** Only animate `transform` and `opacity`. Never `transition-all`. Spring-style easing: `cubic-bezier(0.16, 1, 0.3, 1)`.
+- **Interactive states:** Every clickable element needs hover, focus-visible, and active states.
+- **Depth:** Base (`--bg`) → elevated (`--elevated`) → floating (`--card`).
+- **Grain:** SVG `feTurbulence` noise overlay on `body::after` at ~3% opacity for depth.
 
 ## Hard Rules
-- Do not add sections, features, or content not in the reference
-- Do not "improve" a reference design — match it
-- Do not stop after one screenshot pass
+
+- Do not add sections, features, or content not requested
 - Do not use `transition-all`
 - Do not use default Tailwind blue/indigo as primary color
+- Do not use `overflow: hidden` on containers that hold italic text at large sizes — it clips glyph overhangs
